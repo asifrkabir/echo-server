@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
 import { TPost } from "./post.interface";
-import { POST_CATEGORY_LIST } from "./post.constant";
 
 const postSchema = new Schema<TPost>(
   {
@@ -15,11 +14,6 @@ const postSchema = new Schema<TPost>(
     author: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-    },
-    category: {
-      type: String,
-      enum: POST_CATEGORY_LIST,
       required: true,
     },
     isPremium: {

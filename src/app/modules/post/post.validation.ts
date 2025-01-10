@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { POST_CATEGORY_LIST } from "./post.constant";
 
 const createPostValidationSchema = z.object({
   body: z.object({
@@ -15,10 +14,6 @@ const createPostValidationSchema = z.object({
         invalid_type_error: "Content must be a valid string",
       })
       .min(1, { message: "Content is required" }),
-    category: z.enum([...POST_CATEGORY_LIST] as [string, ...string[]], {
-      message: "Please enter a valid category",
-      required_error: "Category is required",
-    }),
     isPremium: z
       .boolean({
         invalid_type_error: "Is Premium must be a boolean",
@@ -48,11 +43,6 @@ const updatePostValidationSchema = z.object({
     content: z
       .string({
         invalid_type_error: "Content must be a valid string",
-      })
-      .optional(),
-    category: z
-      .enum([...POST_CATEGORY_LIST] as [string, ...string[]], {
-        message: "Please enter a valid category",
       })
       .optional(),
     isPremium: z
