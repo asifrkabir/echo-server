@@ -1,5 +1,5 @@
 {
-  "name": "batch-3-assignment-6-server-asifrkabir",
+  "name": "echo-server",
   "version": "1.0.0",
   "main": "./dist/server.js",
   "scripts": {
