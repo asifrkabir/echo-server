@@ -1,10 +1,11 @@
 import httpStatus from "http-status";
-import AppError from "../../errors/AppError";
-import { getExistingUserById } from "../user/user.utils";
-import { Follow } from "./follow.model";
-import { TFollow } from "./follow.interface";
-import QueryBuilder from "../../builder/QueryBuilder";
 import { ClientSession } from "mongoose";
+import QueryBuilder from "../../builder/QueryBuilder";
+import AppError from "../../errors/AppError";
+import { User } from "../user/user.model";
+import { getExistingUserById } from "../user/user.utils";
+import { TFollow } from "./follow.interface";
+import { Follow } from "./follow.model";
 
 const getAllFollows = async (query: Record<string, unknown>) => {
   const followQuery = new QueryBuilder(
@@ -143,10 +144,34 @@ const checkIfUserFollowsAnotherUser = async (
   }
 };
 
+const getPeopleYouMayKnow = async (
+  userId: string,
+  query: Record<string, unknown>
+) => {
+  const numOfUsers = parseInt(query?.numOfUsers as string, 10) || 5;
+
+  const following = await Follow.find({ follower: userId }).select("following");
+
+  const followingIds = following.map((follow) => follow.following.toString());
+
+  // Exclude current user's ID
+  followingIds.push(userId);
+
+  const users = await User.find({
+    _id: { $nin: followingIds },
+    isActive: true,
+  })
+    .limit(numOfUsers)
+    .select("_id name profilePicture");
+
+  return users;
+};
+
 export const FollowService = {
   getAllFollows,
   follow,
   unfollow,
   deleteAllFollowsByUserId,
   checkIfUserFollowsAnotherUser,
+  getPeopleYouMayKnow,
 };

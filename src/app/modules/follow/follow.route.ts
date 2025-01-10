@@ -11,6 +11,12 @@ router.get(
   FollowController.getAllFollows
 );
 
+router.get(
+  "/people-you-may-know",
+  auth(USER_ROLE_ENUM.admin, USER_ROLE_ENUM.user),
+  FollowController.getPeopleYouMayKnow
+);
+
 router.post(
   "/:toBeFollowedUserId",
   auth(USER_ROLE_ENUM.admin, USER_ROLE_ENUM.user),

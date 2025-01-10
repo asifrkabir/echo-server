@@ -70,9 +70,31 @@ const checkIfUserFollowsAnotherUser = catchAsync(async (req, res) => {
   });
 });
 
+const getPeopleYouMayKnow = catchAsync(async (req, res) => {
+  const { userId } = req.user;
+  const result = await FollowService.getPeopleYouMayKnow(userId, req.query);
+
+  if (result?.length <= 0) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.OK,
+      message: "No Data Found",
+      data: result,
+    });
+  } else {
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "People you may know retrieved successfully",
+      data: result,
+    });
+  }
+});
+
 export const FollowController = {
   getAllFollows,
   follow,
   unfollow,
   checkIfUserFollowsAnotherUser,
+  getPeopleYouMayKnow,
 };
