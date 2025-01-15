@@ -92,10 +92,31 @@ const deleteUser = catchAsync(async (req, res) => {
   });
 });
 
+const getTotalUsers = catchAsync(async (req, res) => {
+  const result = await UserService.getTotalUsers(req.query);
+
+  if (result?.result?.length <= 0) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.OK,
+      message: "No Data Found",
+      data: result,
+    });
+  } else {
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Total users retrieved successfully",
+      data: result,
+    });
+  }
+});
+
 export const UserController = {
   getUserById,
   getAllUsers,
   createUser,
   updateUser,
   deleteUser,
+  getTotalUsers,
 };

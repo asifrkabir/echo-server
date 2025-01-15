@@ -147,10 +147,24 @@ const deleteUser = async (id: string) => {
   }
 };
 
+const getTotalUsers = async (query: Record<string, unknown>) => {
+  query.isActive = true;
+
+  const userData = await User.aggregate([
+    { $match: query },
+    { $count: "totalUsers" },
+  ]);
+
+  const totalUsers = userData.length > 0 ? userData[0].totalUsers : 0;
+
+  return totalUsers;
+};
+
 export const UserService = {
   getUserById,
   getAllUsers,
   createUser,
   updateUser,
   deleteUser,
+  getTotalUsers,
 };

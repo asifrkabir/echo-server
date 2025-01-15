@@ -299,6 +299,19 @@ const getAllPostsForFollowingNewsfeed = async (
   };
 };
 
+const getTotalPosts = async (query: Record<string, unknown>) => {
+  query.isActive = true;
+
+  const postData = await Post.aggregate([
+    { $match: query },
+    { $count: "totalPosts" },
+  ]);
+
+  const totalPosts = postData.length > 0 ? postData[0].totalPosts : 0;
+
+  return totalPosts;
+};
+
 export const PostService = {
   getPostById,
   getAllPosts,
@@ -309,4 +322,5 @@ export const PostService = {
   getAllPostsForNewsfeed,
   getPostByIdForUser,
   getAllPostsForFollowingNewsfeed,
+  getTotalPosts,
 };

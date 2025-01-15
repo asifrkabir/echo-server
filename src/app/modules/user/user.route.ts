@@ -12,6 +12,12 @@ import { parseBody } from "../../middlewares/bodyParser";
 const router = Router();
 
 router.get(
+  "/total-users",
+  auth(USER_ROLE_ENUM.admin),
+  UserController.getTotalUsers
+);
+
+router.get(
   "/:id",
   auth(USER_ROLE_ENUM.admin, USER_ROLE_ENUM.user),
   UserController.getUserById

@@ -175,6 +175,26 @@ const getAllPostsForFollowingNewsfeed = catchAsync(async (req, res) => {
   }
 });
 
+const getTotalPosts = catchAsync(async (req, res) => {
+  const result = await PostService.getTotalPosts(req.query);
+
+  if (result?.result?.length <= 0) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.OK,
+      message: "No Data Found",
+      data: result,
+    });
+  } else {
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Total posts retrieved successfully",
+      data: result,
+    });
+  }
+});
+
 export const PostController = {
   getPostById,
   getAllPosts,
@@ -185,4 +205,5 @@ export const PostController = {
   getAllPostsForNewsfeed,
   getPostByIdForUser,
   getAllPostsForFollowingNewsfeed,
+  getTotalPosts,
 };
