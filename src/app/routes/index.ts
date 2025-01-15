@@ -6,6 +6,7 @@ import { FollowRoutes } from "../modules/follow/follow.route";
 import { PaymentRoutes } from "../modules/payment/payment.route";
 import { VoteRoutes } from "../modules/vote/vote.route";
 import { CommentRoutes } from "../modules/comment/comment.route";
+import { GroupRoutes } from "../modules/group/group.route";
 
 const router = Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: "/comments",
     route: CommentRoutes,
+  },
+  {
+    path: "/groups",
+    route: GroupRoutes,
   },
 ];
 

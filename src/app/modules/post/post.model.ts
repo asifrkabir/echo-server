@@ -16,6 +16,10 @@ const postSchema = new Schema<TPost>(
       ref: "User",
       required: true,
     },
+    groupId: {
+      type: Schema.Types.ObjectId,
+      ref: "Group",
+    },
     isPremium: {
       type: Boolean,
       default: false,

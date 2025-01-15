@@ -4,6 +4,7 @@ export type TPost = {
   title: string;
   content: string;
   author: Types.ObjectId;
+  groupId?: Types.ObjectId;
   isPremium: boolean;
   upvotes: number;
   downvotes: number;

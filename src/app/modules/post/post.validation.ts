@@ -14,6 +14,7 @@ const createPostValidationSchema = z.object({
         invalid_type_error: "Content must be a valid string",
       })
       .min(1, { message: "Content is required" }),
+    groupId: z.string().min(1).optional(),
     isPremium: z
       .boolean({
         invalid_type_error: "Is Premium must be a boolean",
