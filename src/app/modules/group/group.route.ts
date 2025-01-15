@@ -8,6 +8,12 @@ import { GroupValidations } from "./group.validation";
 const router = Router();
 
 router.get(
+  "/for-user",
+  auth(USER_ROLE_ENUM.admin, USER_ROLE_ENUM.user),
+  GroupController.getGroupsForUser
+);
+
+router.get(
   "/:id/members",
   auth(USER_ROLE_ENUM.admin, USER_ROLE_ENUM.user),
   GroupController.getGroupMembers

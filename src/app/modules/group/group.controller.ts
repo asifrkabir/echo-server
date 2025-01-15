@@ -144,6 +144,19 @@ const getGroupMembers = catchAsync(async (req, res) => {
   });
 });
 
+const getGroupsForUser = catchAsync(async (req, res) => {
+  const { userId } = req.user;
+
+  const result = await GroupService.getGroupsForUser(userId, req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Group retrieved successfully",
+    data: result,
+  });
+});
+
 export const GroupController = {
   getGroupById,
   getAllGroups,
@@ -154,4 +167,5 @@ export const GroupController = {
   leaveGroup,
   removeMember,
   getGroupMembers,
+  getGroupsForUser,
 };

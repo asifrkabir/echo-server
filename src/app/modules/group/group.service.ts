@@ -228,6 +228,36 @@ const getGroupMembers = async (groupId: string) => {
   return existingGroup.members;
 };
 
+const getGroupsForUser = async (
+  userId: string,
+  query: Record<string, unknown> = { limit: 5 }
+) => {
+  const { limit, groupType } = query;
+
+  const existingUser = await getExistingUserById(userId);
+  if (!existingUser) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  let groupQuery;
+  if (groupType === "joined") {
+    groupQuery = Group.find({ "members.userId": userId, isActive: true })
+      .populate("createdBy")
+      .limit(Number(limit));
+  } else {
+    groupQuery = Group.find({
+      "members.userId": { $ne: userId },
+      isActive: true,
+    })
+      .populate("createdBy")
+      .limit(Number(limit));
+  }
+
+  const groups = await groupQuery;
+
+  return groups;
+};
+
 export const GroupService = {
   getGroupById,
   getAllGroups,
@@ -238,4 +268,5 @@ export const GroupService = {
   leaveGroup,
   removeMember,
   getGroupMembers,
+  getGroupsForUser,
 };
